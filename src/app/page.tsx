@@ -25,7 +25,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="p-4">
       {books && books.map((book) => <p key={book.isbn}>{book.title}</p>)}
     </div>
   );
