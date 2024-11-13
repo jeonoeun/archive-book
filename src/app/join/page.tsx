@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import InputField from "@/components/InputField";
 import Link from "next/link";
+import { signUp } from "@/apis/user";
 
 export default function Join() {
   const [form, setForm] = useState({
@@ -20,6 +21,27 @@ export default function Join() {
   const [passwordMessage, setPasswordMessage] = useState("");
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
   const [nicknameMessage, setNicknameMessage] = useState("");
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (
+      form.validEmail &&
+      form.validPw &&
+      form.validPwConfirm &&
+      form.validNickname
+    ) {
+      try {
+        const user = await signUp(form.email, form.password);
+        console.log("회원가입 성공:", user);
+        alert("회원가입이 성공적으로 완료되었습니다!");
+      } catch (error) {
+        console.error("회원가입 실패:", error);
+        alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+      }
+    } else {
+      alert("입력한 정보가 올바르지 않습니다.");
+    }
+  };
 
   // 이메일
   const onChangeEmail = useCallback(
@@ -108,7 +130,10 @@ export default function Join() {
 
   return (
     <div className="p-5">
-      <form action="" className="flex flex-col items-center gap-4 mt-20">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col items-center gap-4 mt-20"
+      >
         <InputField
           type="email"
           value={form.email}
@@ -144,7 +169,20 @@ export default function Join() {
 
         <button
           type="submit"
-          className="rounded px-[18px] py-[14px] w-full bg-[#FCC33C] text-white font-bold"
+          disabled={
+            !form.validEmail ||
+            !form.validPw ||
+            !form.validPwConfirm ||
+            !form.validNickname
+          }
+          className={`rounded px-[18px] py-[14px] w-full ${
+            form.validEmail &&
+            form.validPw &&
+            form.validPwConfirm &&
+            form.validNickname
+              ? "bg-[#FCC33C] text-white"
+              : "bg-[#C7C7C7] text-white cursor-not-allowed"
+          } font-bold`}
         >
           회원가입
         </button>
