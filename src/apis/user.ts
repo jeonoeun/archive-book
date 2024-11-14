@@ -1,7 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { doc, getFirestore, serverTimestamp, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5wBFFRaEBPrauMrfEmZWdjJlqSkT-DWg",
@@ -17,7 +17,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // 신규 사용자 계정
-export const signUp = async (email: string, password: string) => {
+export const signUp = async (
+  email: string,
+  password: string,
+  nickname: string
+) => {
   const auth = getAuth();
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -26,11 +30,16 @@ export const signUp = async (email: string, password: string) => {
       password
     );
     const user = userCredential.user;
-    console.log("User created:", user);
+
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      nickname: nickname,
+      createdAt: serverTimestamp(),
+      book: [],
+    });
     return user;
   } catch (error: any) {
-    console.error("Error code:", error.code);
-    console.error("Error message:", error.message);
+    console.error("회원가입 실패:", error);
     throw new Error(error.message);
   }
 };
