@@ -4,8 +4,11 @@ import { useCallback, useState } from "react";
 import InputField from "@/components/InputField";
 import Link from "next/link";
 import { signUp } from "@/apis/user";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Join() {
+  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -31,15 +34,16 @@ export default function Join() {
       form.validNickname
     ) {
       try {
-        const user = await signUp(form.email, form.password, form.nickname);
-        console.log("회원가입 성공:", user);
-        alert("회원가입이 성공적으로 완료되었습니다!");
+        await signUp(form.email, form.password, form.nickname);
+
+        toast.success("회원가입이 성공적으로 완료되었습니다!", {});
+        router.push("/");
       } catch (error) {
         console.error("회원가입 실패:", error);
-        alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+        toast.error("회원가입에 실패했습니다. 다시 시도해주세요.");
       }
     } else {
-      alert("입력한 정보가 올바르지 않습니다.");
+      toast.error("입력한 정보가 올바르지 않습니다.");
     }
   };
 
@@ -186,7 +190,6 @@ export default function Join() {
         >
           회원가입
         </button>
-
         <Link href="/login" className="text-[#9CABBB]">
           이미 회원이신가요?
         </Link>
