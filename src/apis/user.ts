@@ -1,7 +1,9 @@
 import {
   getAuth,
+  signOut,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
@@ -27,7 +29,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 // 회원가입
-export const signUp = async (
+export const signUpRequest = async (
   email: string,
   password: string,
   nickname: string
@@ -46,17 +48,37 @@ export const signUp = async (
       createdAt: serverTimestamp(),
       book: [],
     });
-  } catch (error: any) {
-    console.error("회원가입 실패:", error);
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("회원가입 실패:", error);
+      throw new Error(error.message);
+    }
   }
 };
 
 // 로그인
-export const signIn = async () => {};
+export const signInRequest = async (email: string, password: string) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("로그인 실패:", error);
+      throw new Error(error.message);
+    }
+  }
+};
 
 // 로그아웃
-export const signOut = async () => {};
+export const signOutRequest = async () => {
+  try {
+    await signOut(auth);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("로그아웃 실패:", error);
+      throw new Error(error.message);
+    }
+  }
+};
 
 // 사용자 정보
 export const getUserInfo = async () => {
