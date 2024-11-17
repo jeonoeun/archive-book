@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div className="mt-[60px]">
-      {/* <p>{user.nickname}님, 안녕하세요!</p> */}
+      <p>{user.nickname}님, 안녕하세요!</p>
       <MainTab tab={tab} />
       <div className="p-5">
         {tab === "bookshelf" ? <Bookshelf /> : <SentenceCollection />}

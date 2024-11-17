@@ -1,3 +1,5 @@
-export const Bookshelf = () => {
+const Bookshelf = () => {
   return <div>Bookshelf</div>;
 };
+
+export default Bookshelf;

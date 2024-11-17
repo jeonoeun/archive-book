@@ -1,46 +1,14 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-export const SearchResult = ({ search }: { search: string }) => {
-  const [books, setBooks] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const myHeaders = new Headers();
-
-      myHeaders.append(
-        "Authorization",
-        "KakaoAK 31f8e70d3ceba48d8391d158aa45fa70"
-      );
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
-
-      try {
-        const response = await fetch(
-          `https://dapi.kakao.com/v3/search/book?query=${search}`,
-          requestOptions
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        setBooks(data.documents);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchData();
-  }, [search]);
-
-  if (!search) return <p>검색어를 입력해주세요.</p>;
+export const SearchResult = ({ query, books, isLoading }) => {
+  if (books === null) return;
   if (isLoading) return <p>로딩중...</p>;
+  if (books.length === 0)
+    return (
+      <p>
+        {`'${query}'와(과) 일치하는 검색 결과가 없어요. 다른 검색어를 입력해보세요.`}
+      </p>
+    );
 
   return (
     <div className="p-5">
@@ -59,7 +27,7 @@ export const SearchResult = ({ search }: { search: string }) => {
               <div>
                 <p className="mb-1">{book.title}</p>
                 <p className="text-[#9CABBB] text-sm">
-                  차정은 (지은이) ・ 2021
+                  {`${book.authors[0]} 외 1명 ・ ${book.datetime}`}
                 </p>
               </div>
             </div>
