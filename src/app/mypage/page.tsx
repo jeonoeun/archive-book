@@ -19,7 +19,7 @@ export default function Mypage() {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-5 mt-[60px]">
       <button onClick={handleSignOut}>Logout</button>
     </div>
   );
