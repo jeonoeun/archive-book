@@ -37,13 +37,11 @@ export default function JoinForm() {
         await signUpRequest(form.email, form.password, form.nickname);
 
         toast.success("회원가입이 성공적으로 완료되었습니다!", {});
-        router.push("/");
+        router.push("/login");
       } catch (error) {
         console.error("회원가입 실패:", error);
         toast.error("회원가입에 실패했습니다. 다시 시도해주세요.");
       }
-    } else {
-      toast.error("입력한 정보가 올바르지 않습니다.");
     }
   };
 

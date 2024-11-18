@@ -48,6 +48,8 @@ export const signUpRequest = async (
       createdAt: serverTimestamp(),
       book: [],
     });
+
+    await signOut(auth);
   } catch (error) {
     if (error instanceof Error) {
       console.error("회원가입 실패:", error);
