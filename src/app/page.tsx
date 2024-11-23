@@ -1,9 +1,9 @@
 "use client";
 
 import { getUserInfo } from "@/apis/user";
-import Bookshelf from "@/components/Bookshelf";
-import MainTab from "@/components/MainTab";
-import SentenceCollection from "@/components/SentenceCollection";
+import Bookshelf from "@/components/domains/home/Bookshelf";
+import MainTab from "@/components/domains/home/MainTab";
+import SentenceCollection from "@/components/domains/home/SentenceCollection";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 

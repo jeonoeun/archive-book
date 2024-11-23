@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import InputField from "@/components/InputField";
+import InputField from "@/components/domains/search/InputField";
 import { signUpRequest } from "@/apis/user";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";

@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { RiSearch2Line } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { useMemo, useRef, useState } from "react";
-import { SearchResult } from "@/components/SearchResult";
+import { SearchResult } from "@/components/domains/search/SearchResult";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Search() {

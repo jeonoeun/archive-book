@@ -1,5 +1,5 @@
 import Link from "next/link";
-import JoinForm from "@/components/JoinForm";
+import JoinForm from "@/components/domains/join/JoinForm";
 
 export default function Join() {
   return (
