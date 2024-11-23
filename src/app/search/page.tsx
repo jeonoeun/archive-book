@@ -3,9 +3,10 @@
 import { debounce } from "lodash";
 import { RiSearch2Line } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { SearchResult } from "@/components/domains/search/SearchResult";
 import { useRouter, useSearchParams } from "next/navigation";
+import { searchBooks } from "@/apis/book";
 
 export default function Search() {
   const router = useRouter();
@@ -19,50 +20,37 @@ export default function Search() {
 
   const query = searchParams?.get("query");
 
-  const fetchData = async (query: string) => {
-    const myHeaders = new Headers();
-
-    myHeaders.append(
-      "Authorization",
-      "KakaoAK 31f8e70d3ceba48d8391d158aa45fa70"
-    );
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    };
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `https://dapi.kakao.com/v3/search/book?query=${query}`,
-        requestOptions
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+  const fetchBooks = async (query: string) => {
+    if (query)
+      try {
+        setIsLoading(true);
+        const res = await searchBooks(query);
+        setBooks(res.documents);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+        setBooks(null);
+      } finally {
+        setIsLoading(false);
       }
-
-      const data = await response.json();
-      setBooks(data.documents);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
   };
+
+  const updateURL = useCallback(
+    (value: string) => {
+      const params = new URL(window.location.href);
+      params.searchParams.set("query", value);
+
+      router.replace(params.toString());
+    },
+    [router]
+  );
 
   const debouncedSearch = useMemo(
     () =>
       debounce((value: string) => {
-        const params = new URL(window.location.href);
-        params.searchParams.set("query", value);
-
-        router.replace(params.toString());
-
-        fetchData(value);
+        updateURL(value);
+        fetchBooks(value);
       }, 400),
-    [router]
+    [updateURL]
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -77,6 +65,9 @@ export default function Search() {
 
   const handleClear = () => {
     setSearch("");
+    updateURL("");
+    fetchBooks("");
+
     if (inputRef.current) {
       inputRef.current.focus();
     }

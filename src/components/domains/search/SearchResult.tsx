@@ -26,8 +26,14 @@ export const SearchResult = ({ query, books, isLoading }) => {
               />
               <div>
                 <p className="mb-1">{book.title}</p>
-                <p className="text-[#9CABBB] text-sm">
-                  {`${book.authors[0]} 외 1명 ・ ${book.datetime}`}
+                <p className="flex gap-1 text-[rgb(156,171,187)] text-sm">
+                  <span>
+                    {book.authors.length > 1
+                      ? `${book.authors[0]} 외 ${book.authors.length - 1}명`
+                      : book.authors[0]}
+                    (지은이) ・
+                  </span>
+                  <span>{book.datetime?.slice(0, 4)}</span>
                 </p>
               </div>
             </div>

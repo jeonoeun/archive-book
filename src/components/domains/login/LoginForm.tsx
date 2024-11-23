@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import InputField from "./domains/search/InputField";
 import { toast } from "react-toastify";
 import { signInRequest } from "@/apis/user";
 import { useRouter } from "next/navigation";
+import InputField from "../search/InputField";
 
 export default function LoginForm() {
   const router = useRouter();
