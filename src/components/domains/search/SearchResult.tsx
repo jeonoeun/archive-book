@@ -1,9 +1,24 @@
 import Image from "next/image";
+import { useEffect } from "react";
 
-export const SearchResult = ({ query, books, isLoading }) => {
-  if (books === null) return;
-  if (isLoading) return <p>로딩중...</p>;
-  if (books.length === 0)
+export const SearchResult = ({
+  query,
+  books,
+  setBooks,
+  fetchBooks,
+  isLoading,
+}) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchBooks(query);
+      setBooks(data);
+    };
+
+    fetchData();
+  }, [query]);
+
+  if (!query && books?.length === 0) return;
+  if (query && books?.length === 0 && !isLoading)
     return (
       <p>
         {`'${query}'와(과) 일치하는 검색 결과가 없어요. 다른 검색어를 입력해보세요.`}
@@ -13,7 +28,7 @@ export const SearchResult = ({ query, books, isLoading }) => {
   return (
     <div className="p-5">
       <ul>
-        {books.map((book) => (
+        {books?.map((book) => (
           <li key={book.isbn} className="mb-4">
             <div className="flex gap-4 items-center">
               <Image
