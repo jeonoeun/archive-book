@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export const SearchResult = ({
@@ -8,6 +11,8 @@ export const SearchResult = ({
   fetchBooks,
   isLoading,
 }) => {
+  const router = useRouter();
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchBooks(query);
@@ -29,7 +34,11 @@ export const SearchResult = ({
     <div className="p-5 mt-20">
       <ul>
         {books?.map((book) => (
-          <li key={book.isbn} className="mb-4">
+          <li
+            key={book.isbn}
+            className="mb-4"
+            onClick={router.push(`/book/${book.isbn}`)}
+          >
             <div className="flex gap-4 items-center">
               <Image
                 src={book.thumbnail}
