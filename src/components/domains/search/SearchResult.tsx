@@ -26,7 +26,7 @@ export const SearchResult = ({
     );
 
   return (
-    <div className="p-5">
+    <div className="p-5 mt-20">
       <ul>
         {books?.map((book) => (
           <li key={book.isbn} className="mb-4">

@@ -3,6 +3,7 @@ import { MdCancel } from "react-icons/md";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
+import Link from "next/link";
 
 export default function SearchBar({ fetchBooks, setBooks }) {
   const router = useRouter();
@@ -49,12 +50,12 @@ export default function SearchBar({ fetchBooks, setBooks }) {
   };
 
   return (
-    <div className="px-4 py-3 border-b border-[#E0E0E2]">
+    <div className="fixed top-0 left-0 w-full flex items-center px-4 py-3 border-b border-[#E0E0E2] bg-white">
       <form
         onSubmit={handleSubmit}
-        className="flex items-center bg-[#F5F5F5] px-4 py-3 rounded"
+        className="flex items-center bg-[#F5F5F5] px-4 py-3 rounded flex-1"
       >
-        <span>
+        <span className="text-[#b9babe] text-xl">
           <RiSearch2Line />
         </span>
         <input
@@ -67,11 +68,18 @@ export default function SearchBar({ fetchBooks, setBooks }) {
         />
 
         {!(search.trim() === "") && (
-          <button type="button" onClick={handleClear} className="pl-4">
+          <button
+            type="button"
+            onClick={handleClear}
+            className="pl-4 text-[#a0a0a0] text-xl"
+          >
             <MdCancel />
           </button>
         )}
       </form>
+      <Link href="/" className="text-[#F86254] ml-3 ">
+        취소
+      </Link>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function Search() {
   };
 
   return (
-    <div className="mt-[60px]">
+    <>
       <SearchBar fetchBooks={fetchBooks} setBooks={setBooks} />
       <SearchResult
         query={query}
@@ -40,6 +40,6 @@ export default function Search() {
         fetchBooks={fetchBooks}
         isLoading={isLoading}
       />
-    </div>
+    </>
   );
 }

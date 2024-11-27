@@ -1,6 +1,7 @@
 "use client";
 
 import { getUserInfo } from "@/apis/user";
+import DefaultHeader from "@/components/commons/header/DefaultHeader";
 import Bookshelf from "@/components/domains/home/Bookshelf";
 import MainTab from "@/components/domains/home/MainTab";
 import SentenceCollection from "@/components/domains/home/SentenceCollection";
@@ -15,7 +16,6 @@ export default function Home() {
 
   const tab = searchParams?.get("tab") || "bookshelf";
 
-  // fetchUserInfo
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -41,12 +41,15 @@ export default function Home() {
   }
 
   return (
-    <div className="mt-[60px]">
-      <p>{user.nickname}님, 안녕하세요!</p>
-      <MainTab tab={tab} />
-      <div className="p-5">
-        {tab === "bookshelf" ? <Bookshelf /> : <SentenceCollection />}
+    <>
+      <DefaultHeader />
+      <div className="mt-[60px]">
+        <p>{user.nickname}님, 안녕하세요!</p>
+        <MainTab tab={tab} />
+        <div className="p-5">
+          {tab === "bookshelf" ? <Bookshelf /> : <SentenceCollection />}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
