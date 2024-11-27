@@ -1,6 +1,6 @@
 import Image from "next/image";
 import LogoImg from "@/assets/logo.svg";
-import LoginForm from "@/components/LoginForm";
+import LoginForm from "@/components/domains/login/LoginForm";
 import Link from "next/link";
 
 export default function Login() {
@@ -12,7 +12,7 @@ export default function Login() {
         </div>
         <p className="mb-14 text-[#9CABBB]">로그인 후 이용가능합니다.</p>
         <LoginForm />
-        <div className="flex gap-1 mt-4">
+        <div className="flex gap-1 mt-6">
           <p className="text-[#9CABBB]">아직 계정이 없으신가요?</p>
           <Link href="/join" className="text-[#FCC33C]">
             회원가입

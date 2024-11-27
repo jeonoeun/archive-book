@@ -133,7 +133,7 @@ export default function JoinForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full flex flex-col items-center gap-4 mt-20"
+      className="w-full flex flex-col items-center gap-4"
     >
       <InputField
         type="email"
