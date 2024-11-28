@@ -1,34 +1,43 @@
 "use client";
 
+import { searchBooks } from "@/apis/book";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export const SearchResult = ({
-  query,
-  books,
-  setBooks,
-  fetchBooks,
-  isLoading,
-}) => {
+export const SearchResult = ({ debouncedSearchValue }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchBooks(query);
-      setBooks(data);
+    const fetchBooks = async (value: string) => {
+      if (!value) {
+        return [];
+      } else {
+        setIsLoading(true);
+        try {
+          const res = await searchBooks(value);
+          setBooks(res.documents);
+        } catch (error) {
+          console.error("Error fetching books:", error);
+          setBooks([]);
+        } finally {
+          setIsLoading(false);
+        }
+      }
     };
 
-    fetchData();
-  }, [query]);
+    fetchBooks(debouncedSearchValue);
+  }, [debouncedSearchValue]);
 
-  if (!query && books?.length === 0) return;
-  if (query && books?.length === 0 && !isLoading)
-    return (
-      <p>
-        {`'${query}'와(과) 일치하는 검색 결과가 없어요. 다른 검색어를 입력해보세요.`}
-      </p>
-    );
+  // if (!query && books?.length === 0) return;
+  // if (query && books?.length === 0 && !isLoading)
+  //   return (
+  //     <p>
+  //       {`'${query}'와(과) 일치하는 검색 결과가 없어요. 다른 검색어를 입력해보세요.`}
+  //     </p>
+  //   );
 
   return (
     <div className="p-5 mt-20">
@@ -37,7 +46,7 @@ export const SearchResult = ({
           <li
             key={book.isbn}
             className="mb-4"
-            onClick={router.push(`/book/${book.isbn}`)}
+            onClick={() => router.push(`/book/${book.isbn}`)}
           >
             <div className="flex gap-4 items-center">
               <Image

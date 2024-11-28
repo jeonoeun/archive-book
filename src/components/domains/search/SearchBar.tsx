@@ -1,34 +1,19 @@
 import { RiSearch2Line } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
 import Link from "next/link";
 
-export default function SearchBar({ fetchBooks, setBooks }) {
+export default function SearchBar({ setDebouncedSearchValue }) {
+  const [search, setSearch] = useState("");
+
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [search, setSearch] = useState("");
-
-  const updateURL = useCallback(
-    (value: string) => {
-      const params = new URL(window.location.href);
-      params.searchParams.set("query", value);
-
-      router.replace(params.toString());
-    },
-    [router]
-  );
-
   const debouncedSearch = useMemo(
-    () =>
-      debounce(async (value: string) => {
-        updateURL(value);
-        const data = await fetchBooks(value);
-        setBooks(data);
-      }, 400),
-    [updateURL]
+    () => debounce((value: string) => setDebouncedSearchValue(value), 400),
+    [setDebouncedSearchValue]
   );
 
   const handleSubmit = (e: React.FormEvent) => {
