@@ -48,7 +48,13 @@ export const SearchResult = ({ debouncedSearchValue }) => {
           <li
             key={book.isbn}
             className="mb-4"
-            onClick={() => router.push(`/book/${book.isbn.slice(0, 11)}`)}
+            onClick={() => {
+              const isbn =
+                book.isbn.length !== 24
+                  ? book.isbn.trim()
+                  : book.isbn.slice(0, 11);
+              router.push(`/book/${isbn}`);
+            }}
           >
             <div className="flex gap-4 items-center">
               <Image

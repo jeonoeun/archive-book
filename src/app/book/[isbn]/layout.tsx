@@ -8,7 +8,7 @@ export default function DetailLayout({ children }: DetailLayout) {
   return (
     <>
       <CustomHeader />
-      <div className="mt-16">{children}</div>
+      <div>{children}</div>
     </>
   );
 }

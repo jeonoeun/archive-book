@@ -1,4 +1,5 @@
 import { getBookInfo } from "@/apis/book";
+import BookDetailInfo from "@/components/domains/book/BookDetailInfo";
 import Skeleton from "@/components/domains/search/Skeleton";
 import { Suspense } from "react";
 
@@ -12,7 +13,7 @@ export default async function BookDetail({
 
   return (
     <Suspense fallback={<Skeleton />}>
-      <div className="p-5">{book.title}</div>
+      <BookDetailInfo book={book} />
     </Suspense>
   );
 }

@@ -64,7 +64,7 @@ export default function SearchBar({
           </button>
         )}
       </form>
-      <Link href="/" className="text-[#F86254] ml-3 ">
+      <Link href="/" className="text-[#F86254] ml-3">
         취소
       </Link>
     </div>
