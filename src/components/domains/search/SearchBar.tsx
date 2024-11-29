@@ -1,13 +1,15 @@
 import { RiSearch2Line } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
 import Link from "next/link";
 
-export default function SearchBar({ setDebouncedSearchValue }) {
-  const [search, setSearch] = useState("");
-
+export default function SearchBar({
+  search,
+  setSearch,
+  setDebouncedSearchValue,
+}) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 

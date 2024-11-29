@@ -12,41 +12,43 @@ export const SearchResult = ({ debouncedSearchValue }) => {
 
   useEffect(() => {
     const fetchBooks = async (value: string) => {
-      if (!value) {
-        return [];
-      } else {
+      if (!value.trim()) return;
+
+      try {
         setIsLoading(true);
-        try {
-          const res = await searchBooks(value);
-          setBooks(res.documents);
-        } catch (error) {
-          console.error("Error fetching books:", error);
-          setBooks([]);
-        } finally {
-          setIsLoading(false);
-        }
+        const res = await searchBooks(value);
+        setBooks(res.documents);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+        setBooks([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchBooks(debouncedSearchValue);
   }, [debouncedSearchValue]);
 
-  // if (!query && books?.length === 0) return;
-  // if (query && books?.length === 0 && !isLoading)
-  //   return (
-  //     <p>
-  //       {`'${query}'와(과) 일치하는 검색 결과가 없어요. 다른 검색어를 입력해보세요.`}
-  //     </p>
-  //   );
+  if (!debouncedSearchValue && books?.length === 0) return;
+  if (isLoading) return <p className="mt-20">로딩중...</p>;
+  if (debouncedSearchValue && books?.length === 0) {
+    if (!isLoading) {
+      return (
+        <p className="mt-20">
+          {`'${debouncedSearchValue}'와(과) 일치하는 검색 결과가 없어요. 다른 검색어를 입력해보세요.`}
+        </p>
+      );
+    }
+  }
 
   return (
     <div className="p-5 mt-20">
       <ul>
-        {books?.map((book) => (
+        {books.map((book) => (
           <li
             key={book.isbn}
             className="mb-4"
-            onClick={() => router.push(`/book/${book.isbn}`)}
+            onClick={() => router.push(`/book/${book.isbn.slice(0, 11)}`)}
           >
             <div className="flex gap-4 items-center">
               <Image
