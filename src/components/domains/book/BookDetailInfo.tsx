@@ -9,10 +9,12 @@ import {
   MdKeyboardArrowDown,
   MdKeyboardArrowUp,
 } from "react-icons/md";
+import { FaPencilAlt } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const InfoListItem = ({ title, des, children }: InfoListItemType) => {
   return (
-    <div className="flex gap-[6px]">
+    <div className="flex gap-2">
       <span className="text-[#9CABBB] text-nowrap">{title}</span>
       {des && <p>{des}</p>}
       {children}
@@ -20,9 +22,16 @@ const InfoListItem = ({ title, des, children }: InfoListItemType) => {
   );
 };
 
-export default function BookDetailInfo({ book }: { book: BookInfoType }) {
+export default function BookDetailInfo({
+  isbn,
+  book,
+}: {
+  isbn: string;
+  book: BookInfoType;
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const toggleVisibility = () => {
     setIsVisible((prev) => !prev);
@@ -41,7 +50,7 @@ export default function BookDetailInfo({ book }: { book: BookInfoType }) {
           />
         </div>
         <div className="absolute top-0 left-0 w-full h-full bg-[rgba(217,217,217,0.2)] backdrop-blur" />
-        <div className="absolute bottom-6 left-1/2 translate-x-[-50%] w-[124px] h-[181px]">
+        <div className="absolute bottom-6 left-1/2 translate-x-[-50%] w-[124px] h-[181px] drop-shadow">
           <Image
             src={book.thumbnail}
             alt=""
@@ -121,6 +130,12 @@ export default function BookDetailInfo({ book }: { book: BookInfoType }) {
           </button>
         </div>
       </div>
+      <button
+        onClick={() => router.push(`/record/${isbn}`)}
+        className="fixed bottom-5 right-5 flex items-center justify-center rounded-full bg-[#FCC33C] text-white w-12 h-12"
+      >
+        <FaPencilAlt />
+      </button>
     </>
   );
 }

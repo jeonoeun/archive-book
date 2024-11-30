@@ -1,10 +1,10 @@
 import CustomHeader from "@/components/commons/header/CustomHeader";
 
-type DetailLayout = {
+type RecordLayout = {
   children: React.ReactNode;
 };
 
-export default function DetailLayout({ children }: DetailLayout) {
+export default function RecordLayout({ children }: RecordLayout) {
   return (
     <>
       <CustomHeader />

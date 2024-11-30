@@ -13,7 +13,7 @@ export default async function BookDetail({
 
   return (
     <Suspense fallback={<Skeleton />}>
-      <BookDetailInfo book={book} />
+      <BookDetailInfo isbn={isbn} book={book} />
     </Suspense>
   );
 }
