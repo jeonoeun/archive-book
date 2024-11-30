@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
+import { useRef, useState } from "react";
+import {
+  MdKeyboardArrowRight,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp,
+} from "react-icons/md";
 
 const InfoListItem = ({ title, des, children }) => {
   return (
     <div className="flex gap-[6px]">
-      <span className="text-[#9CABBB]">{title}</span>
+      <span className="text-[#9CABBB] text-nowrap">{title}</span>
       {des && <p>{des}</p>}
       {children}
     </div>
@@ -15,6 +20,13 @@ const InfoListItem = ({ title, des, children }) => {
 };
 
 export default function BookDetailInfo({ book }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const toggleVisibility = () => {
+    setIsVisible((prev) => !prev);
+  };
+
   return (
     <>
       <div className="relative w-full h-[290px]">
@@ -51,19 +63,24 @@ export default function BookDetailInfo({ book }) {
           </InfoListItem>
           <InfoListItem title="출판사" des={book.publisher} />
           <InfoListItem title="출판일" des={book.datetime?.slice(0, 10)} />
-          <InfoListItem title="설명" des={book.contents} />
-          <InfoListItem title="가격" des={book.price} />
-          <InfoListItem title="상태" des={book.status} />
-          <Link href={book.url} target="_blank" rel="noopener noreferrer">
-            다음에서 자세히 보기
-          </Link>
+          <div
+            ref={ref}
+            className={`${isVisible ? "block" : "hidden"} flex flex-col gap-3`}
+          >
+            <InfoListItem title="설명" des={book.contents} />
+            <InfoListItem title="가격" des={book.price} />
+            <InfoListItem title="상태" des={book.status} />
+            <Link href={book.url} target="_blank" rel="noopener noreferrer">
+              다음에서 자세히 보기
+            </Link>
+          </div>
         </div>
         <button
-          onClick={() => console.log(book)}
+          onClick={toggleVisibility}
           className="flex items-center justify-center gap-1 border-t border-[#f1f1f1] py-3 w-full"
         >
-          <span>더보기</span>
-          <MdKeyboardArrowDown />
+          <span>{isVisible ? "접기" : "더보기"}</span>
+          {isVisible ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
         </button>
       </div>
 
