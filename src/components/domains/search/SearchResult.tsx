@@ -1,14 +1,19 @@
 "use client";
 
 import { searchBooks } from "@/apis/book";
+import { BookInfoType } from "@/types/book";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export const SearchResult = ({ debouncedSearchValue }) => {
+export const SearchResult = ({
+  debouncedSearchValue,
+}: {
+  debouncedSearchValue: string;
+}) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<BookInfoType[]>([]);
 
   useEffect(() => {
     const fetchBooks = async (value: string) => {

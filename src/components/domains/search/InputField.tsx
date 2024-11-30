@@ -3,7 +3,7 @@ import { FaCheck } from "react-icons/fa6";
 import { FaInfoCircle } from "react-icons/fa";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
-interface Props {
+interface InputFieldType {
   type: "text" | "email" | "password";
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,7 +19,7 @@ export default function InputField({
   placeholder,
   message,
   valid,
-}: Props) {
+}: InputFieldType) {
   const [visible, setVisible] = useState(false);
 
   return (

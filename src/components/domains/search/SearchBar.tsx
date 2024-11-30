@@ -5,11 +5,17 @@ import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
 import Link from "next/link";
 
+type SearchBarProps = {
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  setDebouncedSearchValue: React.Dispatch<React.SetStateAction<string>>;
+};
+
 export default function SearchBar({
   search,
   setSearch,
   setDebouncedSearchValue,
-}) {
+}: SearchBarProps) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 

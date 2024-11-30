@@ -1,5 +1,6 @@
 "use client";
 
+import { BookInfoType, InfoListItemType } from "@/types/book";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -9,7 +10,7 @@ import {
   MdKeyboardArrowUp,
 } from "react-icons/md";
 
-const InfoListItem = ({ title, des, children }) => {
+const InfoListItem = ({ title, des, children }: InfoListItemType) => {
   return (
     <div className="flex gap-[6px]">
       <span className="text-[#9CABBB] text-nowrap">{title}</span>
@@ -19,7 +20,7 @@ const InfoListItem = ({ title, des, children }) => {
   );
 };
 
-export default function BookDetailInfo({ book }) {
+export default function BookDetailInfo({ book }: { book: BookInfoType }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -50,7 +51,6 @@ export default function BookDetailInfo({ book }) {
           />
         </div>
       </div>
-      {/* bookInfo */}
       <div>
         <div className="flex flex-col gap-3 px-5 py-6">
           <p className="font-semibold text-2xl">{book.title}</p>
@@ -83,9 +83,7 @@ export default function BookDetailInfo({ book }) {
           {isVisible ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
         </button>
       </div>
-
       <div className="bg-[#F8F9FD] h-[14px] border-t border-b border-[#f1f1f1]" />
-      {/* 나의 리뷰 */}
       <div>
         <div className="flex justify-between border-b border-[#F5F7FA] p-5">
           <div className="font-semibold">⭐️ ⭐️ ⭐️ ⭐️ ⭐️ 5.0</div>
@@ -102,10 +100,7 @@ export default function BookDetailInfo({ book }) {
           </div>
         </div>
       </div>
-
       <div className="bg-[#F8F9FD] h-[14px] border-t border-b border-[#f1f1f1]" />
-
-      {/* 다른 사람 리뷰 */}
       <div>
         <div className="flex justify-between border-b border-[#F5F7FA] p-5">
           <div className="flex items-center gap-2 font-semibold">
