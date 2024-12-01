@@ -1,10 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { IoRocketSharp, IoFlame, IoBookmark, IoHeart } from "react-icons/io5";
+import { IoRocketSharp, IoFlame, IoHeart } from "react-icons/io5";
+
+const StatusButton = ({ value, icon, title }) => {
+  return (
+    <button
+      value={value}
+      onClick={(e) => console.log(e.target.value)}
+      className="flex-1 border rounded flex items-center justify-center gap-1 p-1"
+    >
+      {icon}
+      <span>{title}</span>
+    </button>
+  );
+};
 
 export default function Record({ params }: { params: { isbn: string } }) {
   const { isbn } = params;
+  const [recordform, setRecordForm] = useState({
+    status: "completed",
+    startDate: "",
+    endDate: "",
+    rate: "",
+    comment: "",
+  });
 
   return (
     <div className="mt-16">
@@ -12,18 +32,17 @@ export default function Record({ params }: { params: { isbn: string } }) {
         <div className="border-b border-[#f1f1f1] p-5">
           <p className="font-semibold mb-3">독서 상태</p>
           <div className="flex gap-2">
-            <button className="flex-1 border rounded flex items-center justify-center gap-1 p-1">
-              <IoRocketSharp />
-              <span>완독</span>
-            </button>
-            <button className="flex-1 border rounded flex items-center justify-center gap-1 p-1">
-              <IoFlame />
-              <span>읽는 중</span>
-            </button>
-            <button className="flex-1 border rounded flex items-center justify-center gap-1 p-1">
-              <IoHeart />
-              <span>보고싶어요</span>
-            </button>
+            <StatusButton
+              value="completed"
+              icon={<IoRocketSharp />}
+              title="완독"
+            />
+            <StatusButton value="reading" icon={<IoFlame />} title="읽는 중" />
+            <StatusButton
+              value="wantToRead"
+              icon={<IoHeart />}
+              title="보고싶어요"
+            />
           </div>
         </div>
         <div className="border-b border-[#f1f1f1] p-5">
@@ -54,8 +73,9 @@ export default function Record({ params }: { params: { isbn: string } }) {
           <label className="font-semibold">한줄평</label>
           <div>300 / 1000</div>
         </div>
-        <input
-          type="text"
+        <textarea
+          onChange={(e) => console.log(e.target.value)}
+          placeholder="이 책에 대한 한줄평을 자유롭게 남겨주세요."
           className="bg-[#F5F5F5] border rounded w-full p-3 outline-none h-24"
         />
       </div>
