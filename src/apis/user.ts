@@ -74,6 +74,9 @@ export const signInRequest = async (email: string, password: string) => {
 export const signOutRequest = async () => {
   try {
     await signOut(auth);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("userUid");
+    }
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("로그아웃 실패:", error);
@@ -88,6 +91,10 @@ export const getUserInfo = async () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const userId = user.uid;
+
+        if (typeof window !== "undefined") {
+          localStorage.setItem("userUid", userId || "");
+        }
 
         const userDocRef = doc(db, "users", userId);
         const userDoc = await getDoc(userDocRef);

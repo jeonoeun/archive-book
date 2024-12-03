@@ -21,7 +21,6 @@ export default function Home() {
       try {
         const userInfo = await getUserInfo();
         setUser(userInfo);
-        console.log(userInfo);
       } catch (error) {
         console.error("Failed to fetch user info:", error);
       } finally {

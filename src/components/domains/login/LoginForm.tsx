@@ -23,8 +23,8 @@ export default function LoginForm() {
     if (form.validEmail && form.validPw) {
       try {
         await signInRequest(form.email, form.password);
-        toast.success("로그인이 성공적으로 완료되었습니다!", {});
         router.push("/");
+        toast.success("로그인이 성공적으로 완료되었습니다!", {});
       } catch (error) {
         console.error("회원가입 실패:", error);
         toast.error(
