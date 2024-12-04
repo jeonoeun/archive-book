@@ -29,15 +29,3 @@ export const getBookInfo = async (isbn: string) => {
     return null;
   }
 };
-
-export const addBookRecord = async (
-  isbn,
-  status,
-  startDate,
-  endDate,
-  rate,
-  comment
-) => {
-  try {
-  } catch (error) {}
-};

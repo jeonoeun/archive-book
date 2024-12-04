@@ -4,8 +4,13 @@ import BottomButton from "@/components/commons/button/BottomButton";
 import StatusButton from "./StatusButton";
 import { IoRocketSharp, IoFlame, IoHeart } from "react-icons/io5";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { addBookRecord } from "@/apis/user";
 
-const RecordForm = ({ isbn }) => {
+const RecordForm = ({ isbn, book }) => {
+  const router = useRouter();
+
   const [recordForm, setRecordForm] = useState({
     status: "completed",
     startDate: "",
@@ -14,8 +19,26 @@ const RecordForm = ({ isbn }) => {
     comment: "",
   });
 
-  const handleSubmit = () => {
-    console.log(recordForm);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await addBookRecord(isbn, book, recordForm);
+      router.push("/");
+      toast.success("등록이 성공적으로 완료되었습니다!", {});
+    } catch (error) {
+      console.error("등록 실패:", error);
+      toast.success("등록에 실패했습니다. 다시 시도해주세요.", {});
+    }
+  };
+
+  const handleClear = () => {
+    setRecordForm({
+      status: "completed",
+      startDate: "",
+      endDate: "",
+      rate: "5",
+      comment: "",
+    });
   };
 
   return (
@@ -102,11 +125,7 @@ const RecordForm = ({ isbn }) => {
           />
         </div>
       </div>
-      <BottomButton
-        isbn={isbn}
-        setRecordForm={setRecordForm}
-        handleSubmit={handleSubmit}
-      />
+      <BottomButton handleSubmit={handleSubmit} handleClear={handleClear} />
     </>
   );
 };

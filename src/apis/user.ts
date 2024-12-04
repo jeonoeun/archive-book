@@ -8,11 +8,13 @@ import {
 
 import { initializeApp } from "firebase/app";
 import {
+  collection,
   doc,
   getDoc,
   getFirestore,
   serverTimestamp,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -46,7 +48,7 @@ export const signUpRequest = async (
       email: user.email,
       nickname: nickname,
       createdAt: serverTimestamp(),
-      book: [],
+      books: [],
     });
 
     await signOut(auth);
@@ -111,4 +113,36 @@ export const getUserInfo = async () => {
       }
     });
   });
+};
+
+export const addBookRecord = async (isbn, book, formData) => {
+  try {
+    const useUid = localStorage.getItem("userUid") || "";
+    const collectionRef = collection(db, "users");
+    const docRef = doc(collectionRef, useUid);
+    const res = await getDoc(docRef);
+    const docData = res.data();
+
+    const updatedBooks = [
+      {
+        isbn,
+        title: book.title,
+        authors: book.authors,
+        cover: book.thumbnail,
+        status: formData.status,
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        rate: formData.rate,
+        comment: formData.comment,
+      },
+      ...docData?.books,
+    ];
+
+    await updateDoc(docRef, { books: updatedBooks });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("등록 실패:", error);
+      throw new Error(error.message);
+    }
+  }
 };

@@ -13,7 +13,7 @@ export default async function Record({ params }: { params: { isbn: string } }) {
       <div className="pb-24">
         <BookDetailInfo isbn={isbn} book={book} />
         <div className="bg-[#F8F9FD] h-[14px] border-t border-b border-[#f1f1f1]" />
-        <RecordForm isbn={isbn} />
+        <RecordForm isbn={isbn} book={book} />
       </div>
     </Suspense>
   );
