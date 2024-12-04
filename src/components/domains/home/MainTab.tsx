@@ -1,6 +1,11 @@
-import { useRouter } from "next/navigation";
+"use client";
 
-export default function MainTab({ tab }: { tab: string }) {
+import { useRouter, useSearchParams } from "next/navigation";
+
+export default function MainTab() {
+  const searchParams = useSearchParams();
+  const tab = searchParams?.get("tab") || "bookshelf";
+
   const router = useRouter();
 
   const handleClickTab = (tab: string) => {

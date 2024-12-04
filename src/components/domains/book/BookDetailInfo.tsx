@@ -36,7 +36,7 @@ export default function BookDetailInfo({
         <div className="w-full h-full">
           <Image
             src={book.thumbnail}
-            alt=""
+            alt={book.title}
             layout="fill"
             objectFit="cover"
             priority

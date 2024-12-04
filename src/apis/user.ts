@@ -146,3 +146,31 @@ export const addBookRecord = async (isbn, book, formData) => {
     }
   }
 };
+
+export const getUserBooks = async () => {
+  try {
+    const useUid = localStorage.getItem("userUid") || "";
+
+    if (!useUid) {
+      throw new Error("User UID is not available in localStorage.");
+    }
+
+    const userDocRef = doc(db, "users", useUid);
+
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      const books = userData.books;
+      return books;
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error fetching user books:", error.message);
+      throw new Error(error.message);
+    }
+  }
+};
