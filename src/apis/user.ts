@@ -30,7 +30,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// 회원가입
 export const signUpRequest = async (
   email: string,
   password: string,
@@ -60,10 +59,18 @@ export const signUpRequest = async (
   }
 };
 
-// 로그인
 export const signInRequest = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userId = user.uid;
+
+        if (typeof window !== "undefined") {
+          localStorage.setItem("userUid", userId || "");
+        }
+      }
+    });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("로그인 실패:", error);
@@ -72,7 +79,6 @@ export const signInRequest = async (email: string, password: string) => {
   }
 };
 
-// 로그아웃
 export const signOutRequest = async () => {
   try {
     await signOut(auth);
@@ -87,7 +93,6 @@ export const signOutRequest = async () => {
   }
 };
 
-// 사용자 정보
 export const getUserInfo = async () => {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, async (user) => {
