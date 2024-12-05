@@ -52,7 +52,7 @@ export const SearchResult = ({
         {books.map((book) => (
           <li
             key={book.isbn}
-            className="mb-4"
+            className="mb-4 cursor-pointer"
             onClick={() => {
               const isbn =
                 book.isbn.length !== 24

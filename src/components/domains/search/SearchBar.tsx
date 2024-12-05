@@ -1,9 +1,10 @@
-import { RiSearch2Line } from "react-icons/ri";
-import { MdCancel } from "react-icons/md";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { debounce } from "lodash";
 import Link from "next/link";
+
+import { MdCancel } from "react-icons/md";
+import { IoSearchOutline } from "react-icons/io5";
 
 type SearchBarProps = {
   search: string;
@@ -18,6 +19,12 @@ export default function SearchBar({
 }: SearchBarProps) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const debouncedSearch = useMemo(
     () => debounce((value: string) => setDebouncedSearchValue(value), 400),
@@ -49,7 +56,7 @@ export default function SearchBar({
         className="flex items-center bg-[#F5F5F5] px-4 py-3 rounded flex-1"
       >
         <span className="text-[#b9babe] text-xl">
-          <RiSearch2Line />
+          <IoSearchOutline />
         </span>
         <input
           type="text"

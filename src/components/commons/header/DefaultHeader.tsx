@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import LogoImg from "@/assets/logo.svg";
-import { RiSearch2Line } from "react-icons/ri";
+import { IoMdSettings } from "react-icons/io";
+import { IoSearchOutline } from "react-icons/io5";
 
 export default function DefaultHeader() {
   return (
@@ -10,9 +11,14 @@ export default function DefaultHeader() {
         <Link href="/">
           <Image src={LogoImg} alt="logo" width={80} priority />
         </Link>
-        <Link href="/search" className="text-xl">
-          <RiSearch2Line />
-        </Link>
+        <div className="flex items-start gap-4 text-[#9CABBB]">
+          <Link href="/search" className="text-2xl">
+            <IoSearchOutline />
+          </Link>
+          <Link href="/mypage" className="text-2xl">
+            <IoMdSettings />
+          </Link>
+        </div>
       </div>
     </header>
   );
