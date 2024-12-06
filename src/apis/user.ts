@@ -154,14 +154,13 @@ export const addBookRecord = async (isbn, book, formData) => {
 
 export const getUserBooks = async () => {
   try {
-    const useUid = localStorage.getItem("userUid") || "";
+    const userUid = localStorage.getItem("userUid") || "";
 
-    if (!useUid) {
+    if (!userUid) {
       throw new Error("User UID is not available in localStorage.");
     }
 
-    const userDocRef = doc(db, "users", useUid);
-
+    const userDocRef = doc(db, "users", userUid);
     const userDoc = await getDoc(userDocRef);
 
     if (userDoc.exists()) {
@@ -175,6 +174,36 @@ export const getUserBooks = async () => {
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error fetching user books:", error.message);
+      throw new Error(error.message);
+    }
+  }
+};
+
+export const getUserRecord = async (isbn) => {
+  try {
+    const userUid = localStorage.getItem("userUid") || "";
+
+    if (!userUid) {
+      throw new Error("User UID is not available in localStorage.");
+    }
+
+    const userDocRef = doc(db, "users", userUid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      console.log("User document does not exist.");
+      return null;
+    }
+
+    const userData = userDoc.data();
+    const books = userData?.books || [];
+
+    const book = books.find((b: any) => b.isbn === isbn);
+
+    return book || null;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error fetching book by ISBN:", error.message);
       throw new Error(error.message);
     }
   }
