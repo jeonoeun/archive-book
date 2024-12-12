@@ -7,8 +7,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { addBookRecord } from "@/apis/user";
+import { BookInfoType } from "@/types/book";
 
-const RecordForm = ({ isbn, book }) => {
+const RecordForm = ({ isbn, book }: { isbn: string; book: BookInfoType }) => {
   const router = useRouter();
 
   const [recordForm, setRecordForm] = useState({

@@ -2,7 +2,7 @@ import { getUserRecord } from "@/apis/user";
 import { useEffect, useState } from "react";
 import Divider from "@/components/commons/Divider";
 
-const RecordSection = ({ isbn }) => {
+const RecordSection = ({ isbn }: { isbn: string }) => {
   const [bookData, setBookData] = useState(null);
   const [loading, setLoading] = useState(true);
 

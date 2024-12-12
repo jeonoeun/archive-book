@@ -179,7 +179,7 @@ export const getUserBooks = async () => {
   }
 };
 
-export const getUserRecord = async (isbn) => {
+export const getUserRecord = async (isbn: string) => {
   try {
     const userUid = localStorage.getItem("userUid") || "";
 

@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import RecordSection from "./RecordSection";
 
-const BookTabContent = ({ isbn }) => {
+const BookTabContent = ({ isbn }: { isbn: string }) => {
   const searchParams = useSearchParams();
   const tab = searchParams?.get("tab") || "record";
 
