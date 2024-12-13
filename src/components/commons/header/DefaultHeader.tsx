@@ -6,7 +6,7 @@ import { IoSearchOutline } from "react-icons/io5";
 
 export default function DefaultHeader() {
   return (
-    <header className="p-5 fixed top-0 left-0 w-full bg-white">
+    <header className="p-5 fixed top-0 left-0 w-full bg-white z-10">
       <div className="flex items-center justify-between">
         <Link href="/">
           <Image src={LogoImg} alt="logo" width={80} priority />

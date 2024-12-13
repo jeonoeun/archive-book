@@ -1,10 +1,28 @@
+import { Dispatch, SetStateAction } from "react";
+
+type RecordFormType = {
+  status: string;
+  startDate: string;
+  endDate: string;
+  rate: string;
+  comment: string;
+};
+
+export type StatusButtonType = {
+  value: string;
+  icon: JSX.Element;
+  title: string;
+  recordForm: RecordFormType;
+  setRecordForm: Dispatch<SetStateAction<RecordFormType>>;
+};
+
 export default function StatusButton({
   value,
   icon,
   title,
   recordForm,
   setRecordForm,
-}) {
+}: StatusButtonType) {
   return (
     <div
       onClick={() => setRecordForm((prev) => ({ ...prev, status: value }))}

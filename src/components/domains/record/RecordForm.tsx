@@ -44,7 +44,7 @@ const RecordForm = ({ isbn, book }: { isbn: string; book: BookInfoType }) => {
 
   return (
     <>
-      <div className="p-5 flex flex-col gap-5">
+      <div className="px-5 py-7 flex flex-col gap-8">
         <div>
           <p className="font-semibold mb-3">독서 상태</p>
           <div className="flex gap-2">
@@ -71,46 +71,42 @@ const RecordForm = ({ isbn, book }: { isbn: string; book: BookInfoType }) => {
             />
           </div>
         </div>
-        <div>
-          <p className="font-semibold mb-3">독서 기간</p>
-          <div className="flex gap-4">
-            <div className="flex flex-col items-start gap-1 flex-1">
-              <label htmlFor="" className="text-[#9CABBB]">
-                시작일
-              </label>
-              <input
-                type="date"
-                value={recordForm.startDate}
-                onChange={(e) =>
-                  setRecordForm((prev) => ({
-                    ...prev,
-                    startDate: e.target.value,
-                  }))
-                }
-                className="border rounded w-full p-[6px] h-[38px]"
-              />
-            </div>
-            <div className="flex flex-col items-start gap-1 flex-1">
-              <label htmlFor="" className="text-[#9CABBB]">
-                종료일
-              </label>
-              <input
-                type="date"
-                value={recordForm.endDate}
-                onChange={(e) =>
-                  setRecordForm((prev) => ({
-                    ...prev,
-                    endDate: e.target.value,
-                  }))
-                }
-                className="border rounded w-full h-[38px] p-[6px]"
-              />
-            </div>
+
+        <div className="flex gap-4">
+          <div className="flex flex-col items-start gap-[6px] flex-1">
+            <label htmlFor="" className="font-semibold">
+              시작일
+            </label>
+            <input
+              type="date"
+              value={recordForm.startDate}
+              onChange={(e) =>
+                setRecordForm((prev) => ({
+                  ...prev,
+                  startDate: e.target.value,
+                }))
+              }
+              className="border rounded w-full p-[6px] h-[38px]"
+            />
+          </div>
+          <div className="flex flex-col items-start gap-[6px] flex-1">
+            <label htmlFor="" className="font-semibold">
+              종료일
+            </label>
+            <input
+              type="date"
+              value={recordForm.endDate}
+              onChange={(e) =>
+                setRecordForm((prev) => ({
+                  ...prev,
+                  endDate: e.target.value,
+                }))
+              }
+              className="border rounded w-full h-[38px] p-[6px]"
+            />
           </div>
         </div>
-      </div>
-      <div className="bg-[#F8F9FD] h-[14px] border-t border-b border-[#f1f1f1]" />
-      <div className="p-5">
+
         <div>
           <div className="flex justify-between items-center mb-3">
             <label className="font-semibold">한줄평</label>

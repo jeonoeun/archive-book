@@ -16,6 +16,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { BookInfoType } from "@/types/book";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5wBFFRaEBPrauMrfEmZWdjJlqSkT-DWg",
@@ -198,7 +199,8 @@ export const getUserRecord = async (isbn: string) => {
     const userData = userDoc.data();
     const books = userData?.books || [];
 
-    const book = books.find((b: any) => b.isbn === isbn);
+    const book = books.find((book: BookInfoType) => book.isbn === isbn);
+    console.log(book);
 
     return book || null;
   } catch (error) {
