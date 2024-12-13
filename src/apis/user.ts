@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
@@ -43,6 +44,10 @@ export const signUpRequest = async (
       password
     );
     const user = userCredential.user;
+
+    updateProfile(user, {
+      displayName: nickname,
+    });
 
     await setDoc(doc(db, "users", user.uid), {
       email: user.email,
@@ -94,28 +99,18 @@ export const signOutRequest = async () => {
   }
 };
 
-export const getUserInfo = async () => {
+export const getUserInfo = () => {
   return new Promise((resolve, reject) => {
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        const userId = user.uid;
+        const userData = {
+          nickName: user.displayName,
+          email: user.email,
+        };
 
-        if (typeof window !== "undefined") {
-          localStorage.setItem("userUid", userId || "");
-        }
-
-        const userDocRef = doc(db, "users", userId);
-        const userDoc = await getDoc(userDocRef);
-
-        if (!userDoc.exists()) {
-          console.error("Firestore에서 사용자를 찾을 수 없습니다.");
-          return resolve(user); // Firestore에 정보가 없으면 기본 정보만 반환
-        }
-
-        const userData = { ...user, ...userDoc.data() };
         resolve(userData);
       } else {
-        reject("No user is currently logged in");
+        reject(null);
       }
     });
   });
@@ -200,7 +195,6 @@ export const getUserRecord = async (isbn: string) => {
     const books = userData?.books || [];
 
     const book = books.find((book: BookInfoType) => book.isbn === isbn);
-    console.log(book);
 
     return book || null;
   } catch (error) {
