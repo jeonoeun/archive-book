@@ -1,6 +1,7 @@
 import { getBookInfo } from "@/apis/book";
 import FloatingButton from "@/components/commons/button/FloatingButton";
 import Divider from "@/components/commons/Divider";
+import CustomHeader from "@/components/commons/header/CustomHeader";
 import BookDetailInfo from "@/components/domains/book/BookDetailInfo";
 import BookDetailTab from "@/components/domains/book/BookDetailTab";
 import BookTabContent from "@/components/domains/book/BookTabContent";
@@ -16,12 +17,15 @@ export default async function BookDetail({
   const book = await getBookInfo(isbn);
 
   return (
-    <Suspense fallback={<Skeleton />}>
-      <BookDetailInfo isbn={isbn} book={book} />
-      <Divider />
-      <BookDetailTab />
-      <BookTabContent isbn={isbn} />
-      <FloatingButton isbn={isbn} />
-    </Suspense>
+    <>
+      <CustomHeader />
+      <Suspense fallback={<Skeleton />}>
+        <BookDetailInfo isbn={isbn} book={book} />
+        <Divider />
+        <BookDetailTab />
+        <BookTabContent isbn={isbn} />
+        <FloatingButton isbn={isbn} />
+      </Suspense>
+    </>
   );
 }
