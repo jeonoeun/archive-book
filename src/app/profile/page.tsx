@@ -8,13 +8,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import UserIcon from "@/assets/user-icon.svg";
 import CustomHeader from "@/components/commons/header/CustomHeader";
+import Link from "next/link";
 
 export type UserInfoType = {
   nickName: string;
   email: string;
 };
 
-export default function Mypage() {
+export default function Profile() {
   const router = useRouter();
   const [userInfo, setUserInfo] = useState<UserInfoType | null>();
 
@@ -44,7 +45,7 @@ export default function Mypage() {
 
   return (
     <>
-      <CustomHeader pageTitle="마이페이지" />
+      <CustomHeader pageTitle="회원정보" />
       {userInfo && (
         <div className="flex flex-col min-h-screen">
           <div className="mt-16 mb-3 p-5 flex flex-col items-center justify-center">
@@ -55,7 +56,7 @@ export default function Mypage() {
             <p className="text-sm text-[#9CABBB]">{userInfo.email}</p>
           </div>
           <div className="flex-1 p-5 py-6 bg-[#F5F5F5]">
-            <p className="font-semibold mb-2 text-[#969696]">회원 정보</p>
+            <p className="font-semibold mb-2 text-[#969696]">회원정보</p>
             <ul className="bg-white rounded-lg mb-8 drop-shadow-sm">
               <li className="flex items-center justify-between border-b p-5">
                 <p>닉네임</p>
@@ -68,9 +69,14 @@ export default function Mypage() {
             </ul>
             <p className="font-semibold mb-2 text-[#969696]">설정</p>
             <ul className="bg-white rounded-lg drop-shadow-sm">
-              <li className="flex items-center justify-between border-b p-5">
-                <p>회원 정보 수정</p>
-                <MdKeyboardArrowRight />
+              <li>
+                <Link
+                  href="/profile/edit"
+                  className="flex items-center justify-between border-b p-5"
+                >
+                  <p>회원정보 수정</p>
+                  <MdKeyboardArrowRight />
+                </Link>
               </li>
               <li
                 className="flex items-center justify-between border-b p-5 cursor-pointer"

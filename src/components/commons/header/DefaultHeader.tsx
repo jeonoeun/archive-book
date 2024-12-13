@@ -15,7 +15,7 @@ export default function DefaultHeader() {
           <Link href="/search" className="text-2xl">
             <IoSearchOutline />
           </Link>
-          <Link href="/mypage" className="text-2xl">
+          <Link href="/profile" className="text-2xl">
             <IoMdSettings />
           </Link>
         </div>
