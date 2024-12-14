@@ -14,10 +14,6 @@
   }
 }
 
-* {
-  /* outline: 1px solid #f00; */
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
