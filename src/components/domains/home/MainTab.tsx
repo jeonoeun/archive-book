@@ -6,7 +6,7 @@ export default function MainTab() {
       <div className="flex w-full px-4">
         <TabButton tab="bookshelf" tabTitle="책장" />
         <TabButton tab="record" tabTitle="나의 기록" />
-        <TabButton tab="sentence-collection" tabTitle="문장 수집" />
+        <TabButton tab="collection" tabTitle="문장 수집" />
       </div>
     </div>
   );
