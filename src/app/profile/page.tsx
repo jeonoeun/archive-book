@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import UserIcon from "@/assets/user-icon.svg";
 import CustomHeader from "@/components/commons/header/CustomHeader";
 import Link from "next/link";
+import Divider from "@/components/commons/Divider";
 
 export type UserInfoType = {
   nickName: string;
@@ -47,50 +46,61 @@ export default function Profile() {
     <>
       <CustomHeader pageTitle="회원정보" />
       {userInfo && (
-        <div className="flex flex-col min-h-screen">
-          <div className="mt-16 mb-3 p-5 flex flex-col items-center justify-center">
-            <div className="mb-2">
-              <Image src={UserIcon} alt="user-icon" />
-            </div>
-            <p className="text-2xl font-semibold mb-1">{userInfo.nickName}</p>
-            <p className="text-sm text-[#9CABBB]">{userInfo.email}</p>
-          </div>
-          <div className="flex-1 p-5 py-6 bg-[#F5F5F5]">
-            <p className="font-semibold mb-2 text-[#969696]">회원정보</p>
-            <ul className="bg-white rounded-lg mb-8 drop-shadow-sm">
-              <li className="flex items-center justify-between border-b p-5">
-                <p>닉네임</p>
-                <p>{userInfo.nickName}</p>
-              </li>
-              <li className="flex items-center justify-between p-5">
-                <p>이메일</p>
-                <p>{userInfo.email}</p>
-              </li>
-            </ul>
-            <p className="font-semibold mb-2 text-[#969696]">설정</p>
-            <ul className="bg-white rounded-lg drop-shadow-sm">
-              <li>
-                <Link
-                  href="/profile/edit"
-                  className="flex items-center justify-between border-b p-5"
-                >
-                  <p>회원정보 수정</p>
-                  <MdKeyboardArrowRight />
-                </Link>
-              </li>
-              <li
-                className="flex items-center justify-between border-b p-5 cursor-pointer"
-                onClick={handleSignOut}
+        <div className="mt-16">
+          <ul className="bg-white rounded-lg mb-8">
+            <li className="flex items-center justify-between border-b p-5">
+              <p>이메일</p>
+              <p>{userInfo.email}</p>
+            </li>
+            <li className="flex items-center justify-between p-5">
+              <p>닉네임</p>
+              <p>{userInfo.nickName}</p>
+            </li>
+            <li>
+              <Divider />
+            </li>
+            <li>
+              <Link
+                href="/profile/edit/email"
+                className="flex items-center justify-between border-b p-5"
               >
-                <p>로그아웃</p>
+                <p>이메일 변경</p>
                 <MdKeyboardArrowRight />
-              </li>
-              <li className="flex items-center justify-between p-5">
-                <p>회원 탈퇴</p>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/profile/edit/nickname"
+                className="flex items-center justify-between border-b p-5"
+              >
+                <p>닉네임 변경</p>
                 <MdKeyboardArrowRight />
-              </li>
-            </ul>
-          </div>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/profile/edit/password"
+                className="flex items-center justify-between p-5"
+              >
+                <p>비밀번호 변경</p>
+                <MdKeyboardArrowRight />
+              </Link>
+            </li>
+            <li>
+              <Divider />
+            </li>
+            <li
+              className="flex items-center justify-between border-b p-5 cursor-pointer"
+              onClick={handleSignOut}
+            >
+              <p>로그아웃</p>
+              <MdKeyboardArrowRight />
+            </li>
+            <li className="flex items-center justify-between p-5">
+              <p>회원 탈퇴</p>
+              <MdKeyboardArrowRight />
+            </li>
+          </ul>
         </div>
       )}
     </>

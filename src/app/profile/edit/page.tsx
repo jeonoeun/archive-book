@@ -18,6 +18,10 @@ export default function ProfileEdit() {
   const [nicknameMessage, setNicknameMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   // 이메일
   const onChangeEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,27 +44,6 @@ export default function ProfileEdit() {
     []
   );
 
-  // 이메일
-  const onChangeNickname = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const nicknameRegex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
-      const currentNickname = e.target.value;
-
-      setForm((prevForm) => ({
-        ...prevForm,
-        nickName: currentNickname,
-        validNickname: nicknameRegex.test(currentNickname),
-      }));
-
-      setNicknameMessage(
-        nicknameRegex.test(currentNickname)
-          ? ""
-          : "2~10자 이내의 영문, 숫자, 또는 한글만 입력해 주세요."
-      );
-    },
-    []
-  );
-
   // 패스워드
   const onChangePassword = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +54,7 @@ export default function ProfileEdit() {
       setForm((prevForm) => ({
         ...prevForm,
         password: currentPassword,
-        validPw: passwordRegex.test(currentPassword),
+        validPassword: passwordRegex.test(currentPassword),
       }));
 
       setPasswordMessage(
@@ -87,7 +70,7 @@ export default function ProfileEdit() {
     <>
       <CustomHeader pageTitle="회원정보 수정" buttonTitle="저장" />
       <div className="mt-[60px]">
-        <div className="p-5 flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="p-5 flex flex-col gap-4">
           <InputField
             label="이메일"
             type="email"
@@ -113,7 +96,8 @@ export default function ProfileEdit() {
             message={passwordMessage}
             valid={form.validPassword}
           />
-        </div>
+          <button type="submit">정보 수정</button>
+        </form>
       </div>
     </>
   );

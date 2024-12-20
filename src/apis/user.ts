@@ -5,6 +5,8 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   updateProfile,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
@@ -114,6 +116,45 @@ export const getUserInfo = () => {
       }
     });
   });
+};
+
+export const updateUserDisplayName = async (displayName: string) => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("User is not authenticated");
+  }
+
+  try {
+    await updateProfile(user, { displayName });
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+  }
+};
+
+export const updateUserInfoWithPw = async (email: string, password: string) => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("User is not authenticated");
+  }
+
+  try {
+    const credential = EmailAuthProvider.credential(user.email, password);
+
+    await reauthenticateWithCredential(user, credential);
+
+    await updateProfile(user, { displayName });
+    console.log("User info updated successfully");
+  } catch (error) {
+    if (error.code === "auth/wrong-password") {
+      alert("비밀번호가 올바르지 않습니다.");
+    } else {
+      alert("사용자 정보를 업데이트하는 데 문제가 발생했습니다.");
+    }
+  }
 };
 
 export const addBookRecord = async (isbn, book, formData) => {
