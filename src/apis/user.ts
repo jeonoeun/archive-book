@@ -135,20 +135,20 @@ export const updateUserDisplayName = async (displayName: string) => {
   }
 };
 
-export const updateUserEmail = async (email: string, password: string) => {
+export const updateUserEmail = async (newEmail: string, password: string) => {
   const user = auth.currentUser;
-  const originEmail = user?.email;
+  const email = user?.email;
 
   if (!user) {
     throw new Error("User is not authenticated");
   }
 
   try {
-    const credential = EmailAuthProvider.credential(originEmail, password);
+    const credential = EmailAuthProvider.credential(email, password);
 
     await reauthenticateWithCredential(user, credential);
 
-    await updateEmail(user, { email });
+    await updateEmail(user, newEmail);
 
     console.log("Email updated successfully");
   } catch (error) {
@@ -157,9 +157,8 @@ export const updateUserEmail = async (email: string, password: string) => {
     } else if (error.code === "auth/email-already-in-use") {
       alert("이미 사용 중인 이메일 주소입니다.");
     } else {
-      alert("이메일 업데이트 중 문제가 발생했습니다.");
+      throw new Error();
     }
-    console.error(error);
   }
 };
 
