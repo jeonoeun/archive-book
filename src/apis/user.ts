@@ -7,6 +7,7 @@ import {
   updateProfile,
   EmailAuthProvider,
   reauthenticateWithCredential,
+  updateEmail,
 } from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
@@ -134,26 +135,31 @@ export const updateUserDisplayName = async (displayName: string) => {
   }
 };
 
-export const updateUserInfoWithPw = async (email: string, password: string) => {
+export const updateUserEmail = async (email: string, password: string) => {
   const user = auth.currentUser;
+  const originEmail = user?.email;
 
   if (!user) {
     throw new Error("User is not authenticated");
   }
 
   try {
-    const credential = EmailAuthProvider.credential(user.email, password);
+    const credential = EmailAuthProvider.credential(originEmail, password);
 
     await reauthenticateWithCredential(user, credential);
 
-    await updateProfile(user, { displayName });
-    console.log("User info updated successfully");
+    await updateEmail(user, { email });
+
+    console.log("Email updated successfully");
   } catch (error) {
     if (error.code === "auth/wrong-password") {
       alert("비밀번호가 올바르지 않습니다.");
+    } else if (error.code === "auth/email-already-in-use") {
+      alert("이미 사용 중인 이메일 주소입니다.");
     } else {
-      alert("사용자 정보를 업데이트하는 데 문제가 발생했습니다.");
+      alert("이메일 업데이트 중 문제가 발생했습니다.");
     }
+    console.error(error);
   }
 };
 

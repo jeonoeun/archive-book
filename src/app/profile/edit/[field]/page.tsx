@@ -1,6 +1,7 @@
 "use client";
 
 import CustomHeader from "@/components/commons/header/CustomHeader";
+import EmailEditForm from "@/components/domains/profile/EmailEditForm";
 import NicknameEditForm from "@/components/domains/profile/NicknameEditForm";
 
 const fieldTitle = {
@@ -21,7 +22,7 @@ export default function EditFieldPage({
       <CustomHeader pageTitle={`${fieldTitle[field]} 변경`} />
       <div className="mt-16 p-5">
         {field === "email" ? (
-          <div>이메일 변경</div>
+          <EmailEditForm />
         ) : field === "nickname" ? (
           <NicknameEditForm />
         ) : (

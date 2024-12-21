@@ -55,7 +55,10 @@ const NicknameEditForm = () => {
   );
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full flex flex-col items-center gap-4"
+    >
       <InputField
         label="닉네임"
         type="text"
@@ -64,17 +67,19 @@ const NicknameEditForm = () => {
         message={nicknameMessage}
         valid={validNickname}
       />
-      <button
-        type="submit"
-        disabled={!validNickname}
-        className={`mt-4 w-full rounded px-3 py-3 font-bold ${
-          validNickname
-            ? "bg-[#FCC33C] text-white"
-            : "bg-[#C7C7C7] text-white cursor-not-allowed"
-        } `}
-      >
-        닉네임 설정
-      </button>
+      <div className="w-full flex justify-end">
+        <button
+          type="submit"
+          disabled={!validNickname}
+          className={`rounded px-3 py-2 font-bold ${
+            validNickname
+              ? "bg-[#FCC33C] text-white"
+              : "bg-[#C7C7C7] text-white cursor-not-allowed"
+          } `}
+        >
+          닉네임 저장
+        </button>
+      </div>
     </form>
   );
 };
