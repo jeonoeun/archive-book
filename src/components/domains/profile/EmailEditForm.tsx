@@ -36,7 +36,6 @@ const EmailEditForm = () => {
     e.preventDefault();
     if (form.validEmail && form.validPassword) {
       try {
-        console.log(form);
         await updateUserEmail(form.email, form.password);
         router.push("/profile");
       } catch (error) {
@@ -121,7 +120,7 @@ const EmailEditForm = () => {
               : "bg-[#C7C7C7] text-white cursor-not-allowed"
           } `}
         >
-          이메일 저장
+          이메일 변경
         </button>
       </div>
     </form>

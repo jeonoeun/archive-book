@@ -77,7 +77,7 @@ const NicknameEditForm = () => {
               : "bg-[#C7C7C7] text-white cursor-not-allowed"
           } `}
         >
-          닉네임 저장
+          닉네임 변경
         </button>
       </div>
     </form>

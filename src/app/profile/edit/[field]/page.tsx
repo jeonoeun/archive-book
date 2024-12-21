@@ -3,6 +3,7 @@
 import CustomHeader from "@/components/commons/header/CustomHeader";
 import EmailEditForm from "@/components/domains/profile/EmailEditForm";
 import NicknameEditForm from "@/components/domains/profile/NicknameEditForm";
+import PasswordEditForm from "@/components/domains/profile/PasswordEditForm";
 
 const fieldTitle = {
   email: "이메일",
@@ -26,7 +27,7 @@ export default function EditFieldPage({
         ) : field === "nickname" ? (
           <NicknameEditForm />
         ) : (
-          <div>비밀번호 변경</div>
+          <PasswordEditForm />
         )}
       </div>
     </>

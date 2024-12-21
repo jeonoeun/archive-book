@@ -8,6 +8,7 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
   updateEmail,
+  updatePassword,
 } from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
@@ -145,11 +146,8 @@ export const updateUserEmail = async (newEmail: string, password: string) => {
 
   try {
     const credential = EmailAuthProvider.credential(email, password);
-
     await reauthenticateWithCredential(user, credential);
-
     await updateEmail(user, newEmail);
-
     console.log("Email updated successfully");
   } catch (error) {
     if (error.code === "auth/wrong-password") {
@@ -158,6 +156,27 @@ export const updateUserEmail = async (newEmail: string, password: string) => {
       alert("이미 사용 중인 이메일 주소입니다.");
     } else {
       throw new Error();
+    }
+  }
+};
+
+export const updateUserPassword = async (password, newPassword) => {
+  const user = auth.currentUser;
+  const email = user?.email;
+
+  if (!user) {
+    throw new Error("User is not authenticated");
+  }
+
+  try {
+    const credential = EmailAuthProvider.credential(email, password);
+    await reauthenticateWithCredential(user, credential);
+    await updatePassword(user, newPassword);
+  } catch (error) {
+    if (error.code === "auth/wrong-password") {
+      throw new Error("비밀번호가 올바르지 않습니다.");
+    } else {
+      throw new Error(error.message);
     }
   }
 };
