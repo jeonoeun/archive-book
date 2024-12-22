@@ -49,9 +49,9 @@ const Bookshelf = () => {
               <Image
                 src={book.cover}
                 alt={book.title}
-                layout="fill"
-                objectFit="cover"
+                fill
                 priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
             <div className="mt-3">
