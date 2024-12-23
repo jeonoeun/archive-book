@@ -46,9 +46,9 @@ export const SearchResult = ({
 
   return (
     <div className="p-5 mt-20">
-      <ul>
+      <ul className="flex flex-col gap-4">
         {books.map((book) => (
-          <BookItem book={book} key={book.isbn} />
+          <BookItem book={book} key={book.isbn} type="flex" />
         ))}
       </ul>
     </div>

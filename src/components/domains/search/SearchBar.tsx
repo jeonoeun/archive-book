@@ -50,7 +50,7 @@ export default function SearchBar({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full flex items-center px-4 py-3 border-b border-[#E0E0E2] bg-white">
+    <div className="fixed top-0 left-0 w-full flex items-center px-4 py-3 border-b border-[#E0E0E2] bg-white z-10">
       <form
         onSubmit={handleSubmit}
         className="flex items-center bg-[#F5F5F5] px-4 py-3 rounded flex-1"
