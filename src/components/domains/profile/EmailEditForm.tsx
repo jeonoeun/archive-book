@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import InputField from "../search/InputField";
+import InputField from "../../commons/input/InputField";
 import { getUserInfo, updateUserEmail } from "@/apis/user";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import SubmitButton from "@/components/commons/button/SubmitButton";
 
 const EmailEditForm = () => {
   const router = useRouter();
@@ -110,19 +111,10 @@ const EmailEditForm = () => {
         message={passwordMessage}
         valid={form.validPassword}
       />
-      <div className="w-full flex justify-end">
-        <button
-          type="submit"
-          disabled={!form.validEmail || !form.validPassword}
-          className={`rounded px-3 py-2 font-bold ${
-            form.validEmail && form.validPassword
-              ? "bg-[#FCC33C] text-white"
-              : "bg-[#C7C7C7] text-white cursor-not-allowed"
-          } `}
-        >
-          이메일 변경
-        </button>
-      </div>
+      <SubmitButton
+        label="이메일 변경"
+        disabled={!form.validEmail || !form.validPassword}
+      />
     </form>
   );
 };

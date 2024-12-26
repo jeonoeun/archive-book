@@ -1,8 +1,9 @@
 import { useCallback, useState } from "react";
-import InputField from "../search/InputField";
+import InputField from "../../commons/input/InputField";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { updateUserPassword } from "@/apis/user";
+import SubmitButton from "@/components/commons/button/SubmitButton";
 
 const PasswordEditForm = () => {
   const router = useRouter();
@@ -131,21 +132,12 @@ const PasswordEditForm = () => {
         message={passwordMessage}
         valid={form.validPassword}
       />
-      <div className="w-full flex justify-end">
-        <button
-          type="submit"
-          disabled={
-            !form.validPassword || !form.validNewPw || !form.validPassword
-          }
-          className={`rounded px-3 py-2 font-bold ${
-            form.validPassword && form.validNewPw && form.validNewPwConfirm
-              ? "bg-[#FCC33C] text-white"
-              : "bg-[#C7C7C7] text-white cursor-not-allowed"
-          } `}
-        >
-          비밀번호 변경
-        </button>
-      </div>
+      <SubmitButton
+        label="비밀번호 변경"
+        disabled={
+          !form.validPassword || !form.validNewPw || !form.validPassword
+        }
+      />
     </form>
   );
 };

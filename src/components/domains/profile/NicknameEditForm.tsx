@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import InputField from "../search/InputField";
+import InputField from "../../commons/input/InputField";
 import { getUserInfo, updateUserDisplayName } from "@/apis/user";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import SubmitButton from "@/components/commons/button/SubmitButton";
 
 const NicknameEditForm = () => {
   const router = useRouter();
@@ -67,19 +68,7 @@ const NicknameEditForm = () => {
         message={nicknameMessage}
         valid={validNickname}
       />
-      <div className="w-full flex justify-end">
-        <button
-          type="submit"
-          disabled={!validNickname}
-          className={`rounded px-3 py-2 font-bold ${
-            validNickname
-              ? "bg-[#FCC33C] text-white"
-              : "bg-[#C7C7C7] text-white cursor-not-allowed"
-          } `}
-        >
-          닉네임 변경
-        </button>
-      </div>
+      <SubmitButton label="닉네임 변경" disabled={!validNickname} />
     </form>
   );
 };

@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { signInRequest } from "@/apis/user";
 import { useRouter } from "next/navigation";
-import InputField from "../search/InputField";
+import InputField from "../../commons/input/InputField";
 
 export default function LoginForm() {
   const router = useRouter();

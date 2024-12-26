@@ -1,7 +1,7 @@
 "use client";
 
 import CustomHeader from "@/components/commons/header/CustomHeader";
-import InputField from "@/components/domains/search/InputField";
+import InputField from "@/components/commons/input/InputField";
 import { useCallback, useState } from "react";
 
 export default function ProfileEdit() {
