@@ -11,7 +11,7 @@ import {
   updatePassword,
 } from "firebase/auth";
 
-import { initializeApp } from "firebase/app";
+import { FirebaseError, initializeApp } from "firebase/app";
 import {
   collection,
   doc,
@@ -62,8 +62,15 @@ export const signUpRequest = async (
 
     await signOut(auth);
   } catch (error) {
+    if (error instanceof FirebaseError) {
+      if (error.code === "auth/email-already-in-use") {
+        throw new Error("이미 사용 중인 이메일입니다.");
+      } else {
+        throw new Error(error.message);
+      }
+    }
+
     if (error instanceof Error) {
-      console.error("회원가입 실패:", error);
       throw new Error(error.message);
     }
   }

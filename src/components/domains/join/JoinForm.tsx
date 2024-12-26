@@ -1,187 +1,97 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import InputField from "@/components/commons/input/InputField";
 import { signUpRequest } from "@/apis/user";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useEmail } from "@/hooks/validation/useEmail";
+import { useNickname } from "@/hooks/validation/useNickname";
+import { usePassword } from "@/hooks/validation/usePassword";
+import { useConfirmPassword } from "@/hooks/validation/useConfirmPassword";
 
 export default function JoinForm() {
   const router = useRouter();
+  const { email, validEmail, emailMessage, onChangeEmail } = useEmail();
+  const { nickname, validNickname, nicknameMessage, onChangeNickname } =
+    useNickname();
+  const { password, validPassword, passwordMessage, onChangePassword } =
+    usePassword();
+  const {
+    confirmPassword,
+    validConfirmPassword,
+    confirmPasswordMessage,
+    onChangeConfirmPassword,
+  } = useConfirmPassword(password);
 
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    nickname: "",
-    validEmail: false,
-    validPw: false,
-    validPwConfirm: false,
-    validNickname: false,
-  });
-
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
-  const [nicknameMessage, setNicknameMessage] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const onSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      form.validEmail &&
-      form.validPw &&
-      form.validPwConfirm &&
-      form.validNickname
-    ) {
+    if (validEmail && validPassword && validConfirmPassword && validNickname) {
       try {
-        await signUpRequest(form.email, form.password, form.nickname);
-        router.push("/login");
+        await signUpRequest(email, password, nickname);
         toast.success("회원가입이 성공적으로 완료되었습니다!", {});
+        router.push("/login");
       } catch (error) {
-        console.error("회원가입 실패:", error);
-        toast.error("회원가입에 실패했습니다. 다시 시도해주세요.");
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
       }
     }
   };
 
-  // 이메일
-  const onChangeEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const emailRegex =
-        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-      const currentEmail = e.target.value;
-
-      setForm((prevForm) => ({
-        ...prevForm,
-        email: currentEmail,
-        validEmail: emailRegex.test(currentEmail),
-      }));
-
-      setEmailMessage(
-        emailRegex.test(currentEmail)
-          ? "사용 가능한 이메일입니다."
-          : "올바른 이메일 주소를 입력해 주세요."
-      );
-    },
-    []
-  );
-
-  // 패스워드
-  const onChangePassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const passwordRegex =
-        /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-      const currentPassword = e.target.value;
-
-      setForm((prevForm) => ({
-        ...prevForm,
-        password: currentPassword,
-        validPw: passwordRegex.test(currentPassword),
-      }));
-
-      setPasswordMessage(
-        passwordRegex.test(currentPassword)
-          ? "안전한 비밀번호입니다."
-          : "비밀번호는 8~25자이며, 숫자, 영문자, 특수문자를 포함해야 합니다."
-      );
-    },
-    []
-  );
-
-  // 패스워드 확인
-  const onChangePasswordConfirm = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const currentPasswordConfirm = e.target.value;
-
-      setForm((prevForm) => ({
-        ...prevForm,
-        passwordConfirm: currentPasswordConfirm,
-        validPwConfirm: form.password === currentPasswordConfirm,
-      }));
-
-      setPasswordConfirmMessage(
-        form.password === currentPasswordConfirm
-          ? "비밀번호가 일치합니다."
-          : "비밀번호가 일치하지 않습니다."
-      );
-    },
-    [form.password]
-  );
-
-  // 닉네임
-  const onChangeNickname = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const nicknameRegex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
-      const currentNickname = e.target.value;
-
-      setForm((prevForm) => ({
-        ...prevForm,
-        nickname: currentNickname,
-        validNickname: nicknameRegex.test(currentNickname),
-      }));
-
-      setNicknameMessage(
-        nicknameRegex.test(currentNickname)
-          ? "사용 가능한 닉네임입니다."
-          : "2~10자 이내의 영문, 숫자, 또는 한글만 입력해 주세요."
-      );
-    },
-    []
-  );
-
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={onSubmitForm}
       className="w-full flex flex-col items-center gap-4"
     >
       <InputField
+        label="이메일"
         type="email"
-        value={form.email}
+        value={email}
         onChange={onChangeEmail}
         placeholder="이메일"
         message={emailMessage}
-        valid={form.validEmail}
+        valid={validEmail}
       />
       <InputField
+        label="비밀번호"
         type="password"
-        value={form.password}
+        value={password}
         onChange={onChangePassword}
         placeholder="비밀번호"
         message={passwordMessage}
-        valid={form.validPw}
+        valid={validPassword}
       />
       <InputField
+        label="비밀번호 확인"
         type="password"
-        value={form.passwordConfirm}
-        onChange={onChangePasswordConfirm}
+        value={confirmPassword}
+        onChange={onChangeConfirmPassword}
         placeholder="비밀번호 확인"
-        message={passwordConfirmMessage}
-        valid={form.validPwConfirm}
+        message={confirmPasswordMessage}
+        valid={validConfirmPassword}
       />
       <InputField
+        label="닉네임"
         type="text"
-        value={form.nickname}
+        value={nickname}
         onChange={onChangeNickname}
         placeholder="닉네임"
         message={nicknameMessage}
-        valid={form.validNickname}
+        valid={validNickname}
       />
 
       <button
         type="submit"
         disabled={
-          !form.validEmail ||
-          !form.validPw ||
-          !form.validPwConfirm ||
-          !form.validNickname
+          !validEmail ||
+          !validPassword ||
+          !validConfirmPassword ||
+          !validNickname
         }
-        className={`rounded px-[18px] py-[14px] w-full ${
-          form.validEmail &&
-          form.validPw &&
-          form.validPwConfirm &&
-          form.validNickname
-            ? "bg-[#FCC33C] text-white"
-            : "bg-[#C7C7C7] text-white cursor-not-allowed"
+        className={`rounded px-[18px] py-[14px] w-full text-white ${
+          validEmail && validPassword && validConfirmPassword && validNickname
+            ? "bg-[#FCC33C]"
+            : "bg-[#C7C7C7] cursor-not-allowed"
         } font-bold`}
       >
         회원가입
